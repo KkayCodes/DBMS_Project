@@ -1,31 +1,32 @@
 package main
 
 import (
-    "log"
-    "net/http"
+	"log"
+	"net/http"
 
-    "github.com/gorilla/mux"
-    "attendance-tracker/controllers" // Import your controllers package
-    "attendance-tracker/config"      // Import your config package
+	"attendance-tracker/config"      // Import your config package
+	"attendance-tracker/controllers" // Import your controllers package
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-    // Initialize MongoDB connection
-    config.ConnectDB() // Assuming you have a ConnectDB function in config package
+	// Initialize MongoDB connection
+	config.ConnectDB() // Assuming you have a ConnectDB function in config package
 
-    // Create a new router
-    r := mux.NewRouter()
+	// Create a new router
+	r := mux.NewRouter()
 
-    // API Routes
-    r.HandleFunc("/api/students", controllers.GetStudents).Methods("GET") // Get all students
-    r.HandleFunc("/api/professors", controllers.GetProfessors).Methods("GET") // Get all professors
-    r.HandleFunc("/api/attendance", controllers.UpdateAttendance).Methods("POST") // Update attendance
+	// API Routes
+	r.HandleFunc("/api/students", controllers.GetStudents).Methods("GET")         // Get all students
+	r.HandleFunc("/api/professors", controllers.GetProfessors).Methods("GET")     // Get all professors
+	r.HandleFunc("/api/attendance", controllers.UpdateAttendance).Methods("POST") // Update attendance
 
-    // Serve the frontend files
-    http.Handle("/", http.FileServer(http.Dir("./frontend/")))
-    http.Handle("/api/", r)
+	// Serve the frontend files
+	http.Handle("/", http.FileServer(http.Dir("./frontend/")))
+	http.Handle("/api/", r)
 
-    // Start the server
-    log.Println("Server starting on :8080")
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	// Start the server
+	log.Println("Server starting on :8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
