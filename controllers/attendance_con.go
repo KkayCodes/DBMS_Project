@@ -13,9 +13,17 @@ import (
 // UpdateAttendance updates attendance status for a student in a specific course.
 func UpdateAttendance(w http.ResponseWriter, r *http.Request) {
     var attendanceInfo struct {
-        CourseID  string `json:"course_id"`
-        StudentID string `json:"student_id"`
-        Status    string `json:"status"` // Status should be "green", "yellow", or "red"
+        ID                primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+        AttendanceID      int                `bson:"id" json:"id"`
+        Date              string             `bson:"date" json:"date"`
+        CreatedAt         time.Time          `bson:"created_at" json:"created_at"`
+        UpdatedAt         time.Time          `bson:"updated_at" json:"updated_at"`
+        SessionID         int                `bson:"session_id" json:"session_id"`
+        SubjectID         int                `bson:"subject_id" json:"subject_id"`
+        TotalClasses      int                `bson:"total_classes" json:"total_classes"`
+        ClassesAttended   int                `bson:"classes_attended" json:"classes_attended"`
+        AttendancePercent float64            `bson:"attendance_percent" json:"attendance_percent"`
+}
     }
     
     // Decode request body
